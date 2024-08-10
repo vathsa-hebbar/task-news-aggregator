@@ -8,7 +8,7 @@ const ArticleList = ({ articles }) => {
           <h2 className="font-bold">{article.title}</h2>
           <p className="hidden md:flex">{article.description}</p>
           <a href={article.url} className="text-blue-500" target="_blank" rel="noopener noreferrer">
-            Read more
+            Explore
           </a>
         </div>
       ))}
