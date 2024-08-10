@@ -23,12 +23,12 @@ const Preferences = ({ onSavePreferences }) => {
   };
 
   return (
-    <div className="p-4 border rounded-lg">
+    <div className="p-4 m-4 border rounded-lg">
       <h2 className="font-bold mb-2 flex items-center justify-between">
         Preferences
         <button
           onClick={toggleOpen}
-          className="bg-blue-500 text-white p-1 rounded-lg flex items-center"
+          className="midnightblue text-white p-1 rounded-lg flex items-center"
         >
           {isOpen ? (
             <AiOutlineUp size={20} />
@@ -69,7 +69,7 @@ const Preferences = ({ onSavePreferences }) => {
               className="border p-2 rounded-lg w-full"
             />
           </div>
-          <button onClick={handleSave} className="bg-blue-500 text-white p-2 rounded-lg">
+          <button onClick={handleSave} className="midnightblue text-white p-2 rounded-lg">
             Save Preferences
           </button>
         </>

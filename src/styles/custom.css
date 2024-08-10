@@ -1,0 +1,53 @@
+/* @font-face {
+    font-family: 'Proxima Nova';
+    src: url('/fonts/Proxima-Nova-Regular.woff2') format('woff2'),
+         url('/fonts/Proxima-Nova-Regular.woff') format('woff');
+    font-weight: 400;
+    font-style: normal;
+  }
+  @font-face {
+    font-family: 'Proxima Nova';
+    src: url('/fonts/Proxima-Nova-Bold.woff2') format('woff2'),
+         url('/fonts/Proxima-Nova-Bold.woff') format('woff');
+    font-weight: 700;
+    font-style: normal;
+  } */
+  
+  .midnightblue {
+    background-color: #003366;
+  }
+  
+  .font-proxima {
+    font-family: 'Proxima Nova', sans-serif;
+  }
+  
+
+
+
+
+
+  /* Custom styles for Filter */
+@media (max-width: 768px) {
+  /* Ensure the filter panel is initially hidden */
+  .filter-panel {
+    display: none;
+  }
+  
+  /* Show filter panel when toggle is active */
+  .filter-panel.show {
+    display: flex;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+  }
+  
+  /* Floating button styles */
+  .filter-button {
+    position: fixed;
+    bottom: 1rem;
+    left: 1rem;
+    z-index: 1000;
+  }
+}

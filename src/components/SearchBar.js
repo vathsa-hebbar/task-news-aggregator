@@ -1,27 +1,51 @@
 import React, { useState } from 'react';
+import { AiOutlineWarning } from 'react-icons/ai'; // Import warning icon
 
 const SearchBar = ({ onSearch }) => {
   const [keyword, setKeyword] = useState('');
+  const [isValid, setIsValid] = useState(true);
+
+  const handleInputChange = (e) => {
+    const value = e.target.value;
+    setKeyword(value);
+    // Validate input length
+    if (value.length < 3 || value.length > 100) {
+      setIsValid(false);
+    } else {
+      setIsValid(true);
+    }
+  };
 
   const handleSearch = () => {
-    onSearch(keyword);
+    if (isValid) {
+      onSearch(keyword);
+    }
   };
 
   return (
-    <div className="w-full flex items-center">
-      <input
-        type="text"
-        className="border p-2 rounded-lg w-full md:w-auto"
-        placeholder="Search for articles..."
-        value={keyword}
-        onChange={(e) => setKeyword(e.target.value)}
-      />
-      <button
-        className="bg-blue-500 text-white p-2 rounded-lg ml-2"
-        onClick={handleSearch}
-      >
-        Search
-      </button>
+    <div className='w-full'>
+      <div className="w-full flex items-center justify-center">
+        <input
+          type="text"
+          className={`border p-2 rounded-lg w-full md:w-1/2 ${!isValid ? 'border-red-500' : ''}`}
+          placeholder="Search for articles..."
+          value={keyword}
+          onChange={handleInputChange}
+        />
+        <button
+          className={`text-white p-2 rounded-lg ml-2 ${!isValid ? 'bg-gray-400' : 'midnightblue'}`}
+          onClick={handleSearch}
+          disabled={!isValid}
+        >
+          Search
+        </button>
+      </div>
+      {!isValid && (
+        <div className="flex items-center text-red-500 text-sm ml-2 mt-2">
+          <AiOutlineWarning className="mr-1" /> {/* Warning icon */}
+          <p>Enter a minimum of 3 characters.</p>
+        </div>
+      )}
     </div>
   );
 };

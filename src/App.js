@@ -4,54 +4,10 @@ import Footer from './components/Footer';
 import ArticleList from './components/ArticleList';
 import Preferences from './components/Preferences';
 import CookieConsent from 'react-cookie-consent';
+import SearchBarWithFilter from './components/SearchBarWithFilter';
+import { fetchArticles, mapNewsAPIArticle, mapGuardianArticle, mapNYTArticle } from './components/fetchArticles';
 
-const API_KEYS = {
-  newsapi: process.env.REACT_APP_NEWSAPI_KEY,
-  guardian: process.env.REACT_APP_GUARDIAN_KEY,
-  nyt: process.env.REACT_APP_NYT_KEY,
-};
-
-const fetchArticlesFromNewsAPI = async (keyword) => {
-  const response = await fetch(`https://newsapi.org/v2/everything?q=${keyword}&apiKey=${API_KEYS.newsapi}`);
-  const data = await response.json();
-  return data.articles.map(article => ({
-    id: article.url,
-    title: article.title || 'No Title',
-    description: article.description || 'No Description',
-    url: article.url,
-    source: article.source.name || 'Unknown Source',
-    category: article.category || 'General',
-    publishedAt: article.publishedAt
-  }));
-};
-
-const fetchArticlesFromGuardian = async (keyword) => {
-  const response = await fetch(`https://content.guardianapis.com/search?q=${keyword}&api-key=${API_KEYS.guardian}&show-fields=trailText`);
-  const data = await response.json();
-  return data.response.results.map(article => ({
-    id: article.id,
-    title: article.webTitle || 'No Title',
-    description: article.fields?.trailText || 'No Description',
-    url: article.webUrl,
-    source: 'The Guardian',
-    category: article.sectionName || 'General',
-    publishedAt: article.webPublicationDate
-  }));
-};
-
-const fetchArticlesFromNYT = async (keyword) => {
-  const response = await fetch(`https://api.nytimes.com/svc/search/v2/articlesearch.json?q=${keyword}&api-key=${API_KEYS.nyt}`);
-  const data = await response.json();
-  return data.response.docs.map(article => ({
-    id: article._id,
-    title: article.headline.main || 'No Title',
-    description: article.abstract || 'No Description',
-    url: article.web_url,
-    source: 'New York Times',
-    category: article.section_name || 'General',
-    publishedAt: article.pub_date
-  }));
-};
+import './styles/custom.css';
 
 const App = () => {
   const [articles, setArticles] = useState([]);
@@ -62,50 +18,43 @@ const App = () => {
     authors: []
   });
 
+  const fetchAllArticles = async (keyword = 'latest') => {
+    try {
+      const sources = [
+        { name: 'newsapi', mapFunction: mapNewsAPIArticle },
+        { name: 'guardian', mapFunction: mapGuardianArticle },
+        { name: 'nyt', mapFunction: mapNYTArticle }
+      ];
+
+      const fetchPromises = sources.map(({ name, mapFunction }) =>
+        fetchArticles(name, keyword, mapFunction)
+      );
+
+      const results = await Promise.all(fetchPromises);
+      const allArticles = results.flat();
+      
+      setArticles(allArticles);
+      setFilteredArticles(allArticles);
+    } catch (error) {
+      console.error('Failed to fetch articles', error);
+    }
+  };
+
   useEffect(() => {
-    const fetchArticles = async () => {
-      try {
-        const keyword = 'latest';
-        const newsapiArticles = await fetchArticlesFromNewsAPI(keyword);
-        const guardianArticles = await fetchArticlesFromGuardian(keyword);
-        const nytArticles = await fetchArticlesFromNYT(keyword);
-
-        const allArticles = [...newsapiArticles, ...guardianArticles, ...nytArticles];
-        setArticles(allArticles);
-        setFilteredArticles(allArticles);
-      } catch (error) {
-        console.error('Failed to fetch articles', error);
-      }
-    };
-
-    fetchArticles();
+    fetchAllArticles();
   }, []);
 
   const handleSearch = async (keyword) => {
-    const newsapiArticles = await fetchArticlesFromNewsAPI(keyword);
-    const guardianArticles = await fetchArticlesFromGuardian(keyword);
-    const nytArticles = await fetchArticlesFromNYT(keyword);
-
-    const allArticles = [...newsapiArticles, ...guardianArticles, ...nytArticles];
-    setFilteredArticles(allArticles);
+    fetchAllArticles(keyword);
   };
 
   const handleFilter = (type, value) => {
     let filtered;
 
     if (type === 'publishedAt') {
-      if (value === 'latest') {
-        filtered = [...articles].sort((a, b) => new Date(b.publishedAt) - new Date(a.publishedAt));
-      } else if (value === 'oldest') {
-        filtered = [...articles].sort((a, b) => new Date(a.publishedAt) - new Date(b.publishedAt));
-      } else {
-        filtered = articles;
-      }
+      filtered = articles.sort((a, b) => new Date(value === 'latest' ? b.publishedAt : a.publishedAt) - new Date(value === 'latest' ? a.publishedAt : b.publishedAt));
     } else {
-      filtered = articles.filter(article => {
-        if (!article[type]) return false;
-        return article[type].toLowerCase().includes(value.toLowerCase());
-      });
+      filtered = articles.filter(article => article[type]?.toLowerCase().includes(value.toLowerCase()));
     }
 
     setFilteredArticles(filtered);
@@ -118,8 +67,11 @@ const App = () => {
 
   return (
     <div className="flex flex-col min-h-screen">
-      <Header onSearch={handleSearch} onFilter={handleFilter} />
-      <main className="flex-grow p-4">
+      <Header />
+      <main className="flex-grow px-4 inset-0">
+        <div className="flex flex-col md:flex-row items-center justify-between sticky top-[64px] bg-white bg-opacity-50 backdrop-blur-md">
+          <SearchBarWithFilter onSearch={handleSearch} onFilter={handleFilter} />
+        </div>
         <Preferences onSavePreferences={handleSavePreferences} />
         <ArticleList articles={filteredArticles} />
       </main>
