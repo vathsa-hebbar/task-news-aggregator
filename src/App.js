@@ -84,8 +84,8 @@ const App = () => {
       <CookieConsent
         buttonText="Accept"
         cookieName="userAcceptedCookies"
-        style={{ background: '#2B373B' }}
-        buttonStyle={{ color: '#4e503b', fontSize: '13px' }}
+        style={{ background: '#f6f9fc', color: '#003366'}}
+        buttonStyle={{background: '#003366', color: '#f6f9fc', fontSize: '13px', borderRadius: '5px'}}
         expires={365}
       >
         This website uses cookies to enhance the user experience.

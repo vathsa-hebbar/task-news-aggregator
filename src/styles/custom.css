@@ -16,16 +16,15 @@
   .midnightblue {
     background-color: #003366;
   }
-  
+
+  .barlyWhite{
+    background-color:#f6f9fc;
+  }
+
   .font-proxima {
     font-family: 'Proxima Nova', sans-serif;
   }
   
-
-
-
-
-
   /* Custom styles for Filter */
 @media (max-width: 768px) {
   /* Ensure the filter panel is initially hidden */
