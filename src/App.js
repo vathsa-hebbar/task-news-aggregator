@@ -26,9 +26,14 @@ const App = () => {
         { name: 'nyt', mapFunction: mapNYTArticle }
       ];
 
-      const fetchPromises = sources.map(({ name, mapFunction }) =>
-        fetchArticles(name, keyword, mapFunction)
-      );
+      const fetchPromises = sources.map(async ({ name, mapFunction }) => {
+        try {
+          return await fetchArticles(name, keyword, mapFunction);
+        } catch (error) {
+          console.error(`Failed to fetch articles from ${name}`, error);
+          return []; // Return an empty array on error
+        }
+      });
 
       const results = await Promise.all(fetchPromises);
       const allArticles = results.flat();
