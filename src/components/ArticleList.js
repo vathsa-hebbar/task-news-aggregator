@@ -6,6 +6,7 @@ const ArticleList = ({ articles }) => {
       {articles.map((article, index) => (
         <div key={`${article.url}-${index}`} className="border p-4 m-2 rounded-lg">
           <h2 className="font-bold">{article.title}</h2>
+          {/* <p className="font-bold">{article.author}</p> */}
           <p className="hidden md:flex">{article.description}</p>
           <a href={article.url} className="text-blue-500" target="_blank" rel="noopener noreferrer">
             Explore

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { AiOutlineWarning } from 'react-icons/ai'; // Import warning icon
+import { AiOutlineWarning } from 'react-icons/ai';
 
 const SearchBar = ({ onSearch }) => {
   const [keyword, setKeyword] = useState('');
@@ -8,7 +8,7 @@ const SearchBar = ({ onSearch }) => {
   const handleInputChange = (e) => {
     const value = e.target.value;
     setKeyword(value);
-    // Validate input length
+    // input validation
     if (value.length < 3 || value.length > 100) {
       setIsValid(false);
     } else {
@@ -23,7 +23,7 @@ const SearchBar = ({ onSearch }) => {
   };
 
   return (
-    <div className='w-full'>
+    <div className='w-full flex flex-col items-center space-y-4 py-8 border-b'>
       <div className="w-full flex items-center justify-center">
         <input
           type="text"
@@ -42,7 +42,7 @@ const SearchBar = ({ onSearch }) => {
       </div>
       {!isValid && (
         <div className="flex items-center text-red-500 text-sm ml-2 mt-2">
-          <AiOutlineWarning className="mr-1" /> {/* Warning icon */}
+          <AiOutlineWarning className="mr-1" />
           <p>Enter a minimum of 3 characters.</p>
         </div>
       )}
