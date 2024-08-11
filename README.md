@@ -63,3 +63,9 @@ The News Aggregator is a front-end application designed to aggregate news articl
 ## License
 
 This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
+
+## Referred links/ Docs
+
+- https://tailwindcss.com/docs
+- https://flowbite.com/blocks/
+- https://stackoverflow.com/
