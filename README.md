@@ -1,8 +1,11 @@
 # News Aggregator
 
+## Demo Link
+ - https://task-news-aggregator-vathsahebbars-projects.vercel.app/
+
 ## Overview
 
-The News Aggregator is a front-end application designed to aggregate news articles from various sources. It provides functionality for searching and filtering articles based on keywords, date, category, and source. Users can customize their news feed by selecting their preferred sources, categories, and authors. The application is mobile-responsive and optimized for a clean, user-friendly experience.
+The News Aggregator is a front-end application designed to aggregate news articles from various sources.
 
 ## Features
 
@@ -56,10 +59,6 @@ The News Aggregator is a front-end application designed to aggregate news articl
 - **NewsAPI**: Use the API key from [NewsAPI](https://newsapi.org) to fetch articles.
 - **The Guardian**: Use the API key from [The Guardian](https://open-platform.theguardian.com/) to fetch articles.
 - **New York Times**: Use the API key from [New York Times](https://developer.nytimes.com/) to fetch articles.
-
-## Contributing
-
-If you would like to contribute to this project, please fork the repository and submit a pull request with your changes.
 
 ## License
 
