@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { AiOutlineDown, AiOutlineUp } from 'react-icons/ai';
 
 const Preferences = ({ onSavePreferences }) => {
   const [preferences, setPreferences] = useState({

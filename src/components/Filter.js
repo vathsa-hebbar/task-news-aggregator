@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { AiOutlineDown, AiOutlineUp } from 'react-icons/ai';
 
 const Filter = ({ onFilter }) => {
   const [isOpen, setIsOpen] = useState(false);
